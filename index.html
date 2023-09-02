@@ -2,93 +2,130 @@
 <html>
 
 <head>
-    <meta charset="utf-8" />
-    <title>Co-three-sixty</title>
+  <meta charset="utf-8" />
+  <title>Co-three-sixty</title>
 </head>
 <style type="text/css">
-.container {
-    max-width: 1200px;
-    width: 100%;
-    margin: 0 auto;
-}
+    .container {
+        max-width: 1200px;
+        width: 100%;
+        margin: 0 auto;
+    }
+    
+    .demo-actions{
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        width:100%;
+        background: #f1f1f1;
+    }
+    
+    .btn{
+        display: inline-block;
+        background: #877598;
+        padding: .5em 1em;
+        color: white;
+        border:0;
+    }
 
-.variant-selector {
-    margin: 1em 0;
-}
+    .variant-selector {
+        margin: 1em 0;
+    }
 
-co-three-sixty[state="preload"] {
-    display: none;
-}
+    co-three-sixty[state="preload"] {
+        visibility: hidden;
+    }
 </style>
 
 <body>
-    <div class="container">
-        <co-three-sixty id="co-three-sixty-viewer-1" state="preload">
-            <!--Viewer options-->
-            <slot name="options">
-              <!--required-->
-              <slot name="folder">./public/img/sofa/</slot>
-              <!--required-->
-              <slot name="filename">{index}.png</slot>
-              <!--required-->
-              <slot name="amount">32</slot>
-              <!--optional-->
-              <slot name="start">4</slot>
-              <!--optional-->
-              <slot name="spin-speed">100</slot>
-              <!--optional-->
-              <slot name="auto-spin">false</slot>
-              <!--optional-->
-              <slot name="speed">2</slot>
-              <!--optional-->
-              <slot name="debug">true</slot>
-              <!--optional-->
-              <slot name="leading-zeros">0</slot>
-            </slot>
-        </co-three-sixty>
-        <!--Demo content changer-->
-        <div class="variant-selector">
-            <select class="variant-selector-input">
-                <option value="" disabled>Select</option>
-                <option value="sofa" selected>Sofa</option>
-                <option value="ring">Ring</option>
-            </select>
-        </div>
+<div class="container">
+  <!-- Demo with attributes -->
+  <co-three-sixty id="co-three-sixty-viewer-updatable" 
+                  state="preload" 
+                  folder="./public/img/sofa/"
+                  filename="{index}.png"
+                  amount="32" 
+                  start-index="1"
+                  spin-speed="100" 
+                  auto-spin="false" 
+                  debug="false" 
+                  leading-zero-padding="0" 
+                  init-on-load="true">
+  </co-three-sixty>
+
+  <div class="demo-actions">
+    <!--Demo init-->
+    <button class="btn js-init">Init</button>
+    <!--Demo content changer-->
+    <div class="variant-selector">
+      <select class="variant-selector-input">
+        <option value="" disabled>Select</option>
+        <option value="sofa" selected>Sofa</option>
+        <option value="ring">Ring</option>
+      </select>
     </div>
-    <!-- Load script -->
-    <script src="./dist/co-three-sixty.js"></script>
-    <script type="text/javascript">
-    /* Demo data */
-    window.viewerJSON = {
-        sofa: {
-            folder: './public/img/sofa/',
-            filename: '{index}.png',
-            amount: 32,
-            start: 1,
-            spinSpeed: 100,
-            autoSpin: false,
-            speed: 2
-        },
-        ring: {
-            amount: 72,
-            leadingZeros: 2,
-            folder: './public/img/tester/',
-            filename: '360-jewelry-photography-blue-ring{index}.jpg',
-            start: 1,
-            spinSpeed: 100,
-            autoSpin: false,
-            speed: 2
-        }
-    }
-
-    /* Demo external methods */
-    const viewer = document.querySelector('#co-three-sixty-viewer-1');
-
-    document.querySelector('.variant-selector-input').addEventListener('change', (event) => {
-        const jsonEntry = window.viewerJSON[event.target.value];
-        viewer.update(jsonEntry)
-    });
-    </script>
+  </div>
+  
+  <!--Demo with slots-->
+  <co-three-sixty id="co-three-sixty-viewer-slotted"
+                  state="none"
+                  start-index="1"
+                  spin-speed="100"
+                  auto-spin="false"
+                  debug="false"
+                  init-on-load="true">
+    <slot name="heading">
+      Blue ring
+    </slot>
+    <slot name="images">
+      <img src="./public/img/tester/360-jewelry-photography-blue-ring001.jpg">
+      <img src="./public/img/tester/360-jewelry-photography-blue-ring002.jpg">
+      <img src="./public/img/tester/360-jewelry-photography-blue-ring003.jpg">
+      <img src="./public/img/tester/360-jewelry-photography-blue-ring004.jpg">
+      <img src="./public/img/tester/360-jewelry-photography-blue-ring005.jpg">
+      <img src="./public/img/tester/360-jewelry-photography-blue-ring006.jpg">
+      <img src="./public/img/tester/360-jewelry-photography-blue-ring007.jpg">
+      <img src="./public/img/tester/360-jewelry-photography-blue-ring008.jpg">
+      <img src="./public/img/tester/360-jewelry-photography-blue-ring009.jpg">
+      <img src="./public/img/tester/360-jewelry-photography-blue-ring010.jpg">
+    </slot>
+  </co-three-sixty>
+  
+  
+</div>
+<!-- Load script -->
+<script src="./dist/co-three-sixty.js"></script>
+<script type="text/javascript">
+  /* Demo data */
+  window.viewerJSON = {
+      sofa: {
+          folder: './public/img/sofa/',
+          filename: '{index}.png',
+          amount: 32,
+          startIndex: 1,
+          spinSpeed: 100,
+          autoSpin: false,
+      },
+      ring: {
+          folder: './public/img/tester/',
+          filename: '360-jewelry-photography-blue-ring{index}.jpg',
+          amount: 72,
+          startIndex: 1,
+          spinSpeed: 100,
+          autoSpin: false,
+          leadingZeroPadding: 3
+      }
+  }
+  /* Demo external methods */
+  const updatableViewer = document.querySelector( '#co-three-sixty-viewer-updatable' );
+  document.querySelector( '.variant-selector-input' ).addEventListener( 'change', ( event ) => {
+      const jsonEntry = window.viewerJSON[ event.target.value ];
+      updatableViewer.update( jsonEntry )
+  } );
+  document.querySelector( '.js-init' ).addEventListener( 'click', ( event ) => {
+      updatableViewer.init( )
+  } );
+</script>
 </body>
 
 </html>
