@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Co-three-sixty</title>
+</head>
+<style type="text/css">
+.container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.variant-selector {
+    margin: 1em 0;
+}
+
+co-three-sixty[state="preload"] {
+    display: none;
+}
+</style>
+
+<body>
+    <div class="container">
+        <co-three-sixty id="co-three-sixty-viewer-1" state="preload">
+            <!--Viewer options-->
+            <slot name="options">
+              <!--required-->
+              <slot name="folder">./public/img/sofa/</slot>
+              <!--required-->
+              <slot name="filename">{index}.png</slot>
+              <!--required-->
+              <slot name="amount">32</slot>
+              <!--optional-->
+              <slot name="start">4</slot>
+              <!--optional-->
+              <slot name="spin-speed">100</slot>
+              <!--optional-->
+              <slot name="auto-spin">false</slot>
+              <!--optional-->
+              <slot name="speed">2</slot>
+              <!--optional-->
+              <slot name="debug">true</slot>
+              <!--optional-->
+              <slot name="leading-zeros">0</slot>
+            </slot>
+        </co-three-sixty>
+        <!--Demo content changer-->
+        <div class="variant-selector">
+            <select class="variant-selector-input">
+                <option value="" disabled>Select</option>
+                <option value="sofa" selected>Sofa</option>
+                <option value="ring">Ring</option>
+            </select>
+        </div>
+    </div>
+    <!-- Load script -->
+    <script src="./dist/co-three-sixty.js"></script>
+    <script type="text/javascript">
+    /* Demo data */
+    window.viewerJSON = {
+        sofa: {
+            folder: './public/img/sofa/',
+            filename: '{index}.png',
+            amount: 32,
+            start: 1,
+            spinSpeed: 100,
+            autoSpin: false,
+            speed: 2
+        },
+        ring: {
+            amount: 72,
+            leadingZeros: 2,
+            folder: './public/img/tester/',
+            filename: '360-jewelry-photography-blue-ring{index}.jpg',
+            start: 1,
+            spinSpeed: 100,
+            autoSpin: false,
+            speed: 2
+        }
+    }
+
+    /* Demo external methods */
+    const viewer = document.querySelector('#co-three-sixty-viewer-1');
+
+    document.querySelector('.variant-selector-input').addEventListener('change', (event) => {
+        const jsonEntry = window.viewerJSON[event.target.value];
+        viewer.update(jsonEntry)
+    });
+    </script>
+</body>
+
+</html>
