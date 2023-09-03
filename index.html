@@ -11,6 +11,16 @@
         width: 100%;
         margin: 0 auto;
     }
+    .row {
+        width:100%;
+        display: flex;
+        margin-bottom: 1em;
+    }
+    .col {
+        flex: 1 1 50%;
+        max-width: 50%;
+        margin: 0 1em;
+    }
     
     .demo-actions{
         display: flex;
@@ -32,66 +42,145 @@
         margin: 1em 0;
     }
 
-    co-three-sixty[state="preload"] {
-        visibility: hidden;
+    co-three-sixty[state="loading"] {
+        
     }
 </style>
 
 <body>
 <div class="container">
-  <!-- Demo with attributes -->
-  <co-three-sixty id="co-three-sixty-viewer-updatable" 
-                  state="preload" 
-                  folder="./public/img/sofa/"
-                  filename="{index}.png"
-                  amount="32" 
-                  start-index="1"
-                  spin-speed="100" 
-                  auto-spin="false" 
-                  debug="false" 
-                  leading-zero-padding="0" 
-                  init-on-load="true">
-  </co-three-sixty>
-
-  <div class="demo-actions">
-    <!--Demo init-->
-    <button class="btn js-init">Init</button>
-    <!--Demo content changer-->
-    <div class="variant-selector">
-      <select class="variant-selector-input">
-        <option value="" disabled>Select</option>
-        <option value="sofa" selected>Sofa</option>
-        <option value="ring">Ring</option>
-      </select>
+  <div class="row">
+    <div class="col">
+      <!-- Demo with attributes -->
+      <h2>Demo with attributes</h2>
+      <co-three-sixty id="co-three-sixty-viewer-updatable"
+                      folder="./public/img/sofa/"
+                      filename="{index}.png"
+                      amount="32"
+                      start-index="1"
+                      spin-speed="100"
+                      auto-spin="false"
+                      debug="false"
+                      leading-zero-padding="0"
+                      init-on-load="true">
+      </co-three-sixty>
+      <div class="demo-actions">
+        <!--Demo content changer-->
+        <div class="variant-selector">
+          <select class="variant-selector-input">
+            <option value="" disabled>Select</option>
+            <option value="sofa" selected>Sofa</option>
+            <option value="ring">Ring</option>
+            <option value="car">Car</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <!--Demo with slots-->
+      <h2>Demo with attributes and slots</h2>
+      <co-three-sixty id="co-three-sixty-viewer-slotted"
+                      start-index="1"
+                      spin-speed="100"
+                      auto-spin="false"
+                      debug="false"
+                      init-on-load="true">
+        <slot name="imageList">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring001.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring002.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring003.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring004.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring005.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring006.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring007.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring008.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring009.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring010.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring011.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring012.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring013.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring014.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring015.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring016.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring017.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring018.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring019.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring020.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring021.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring022.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring023.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring024.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring025.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring026.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring027.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring028.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring029.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring030.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring031.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring032.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring033.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring034.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring035.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring036.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring037.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring038.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring039.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring040.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring041.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring042.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring043.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring044.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring045.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring046.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring047.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring048.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring049.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring050.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring051.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring052.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring053.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring054.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring055.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring056.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring057.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring058.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring059.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring060.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring061.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring062.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring063.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring064.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring065.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring066.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring067.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring068.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring069.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring070.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring071.jpg">
+          <img src="./public/img/tester/360-jewelry-photography-blue-ring072.jpg">
+        </slot>
+      </co-three-sixty>
     </div>
   </div>
-  
-  <!--Demo with slots-->
-  <co-three-sixty id="co-three-sixty-viewer-slotted"
-                  state="none"
-                  start-index="1"
-                  spin-speed="100"
-                  auto-spin="false"
-                  debug="false"
-                  init-on-load="true">
-    <slot name="heading">
-      Blue ring
-    </slot>
-    <slot name="images">
-      <img src="./public/img/tester/360-jewelry-photography-blue-ring001.jpg">
-      <img src="./public/img/tester/360-jewelry-photography-blue-ring002.jpg">
-      <img src="./public/img/tester/360-jewelry-photography-blue-ring003.jpg">
-      <img src="./public/img/tester/360-jewelry-photography-blue-ring004.jpg">
-      <img src="./public/img/tester/360-jewelry-photography-blue-ring005.jpg">
-      <img src="./public/img/tester/360-jewelry-photography-blue-ring006.jpg">
-      <img src="./public/img/tester/360-jewelry-photography-blue-ring007.jpg">
-      <img src="./public/img/tester/360-jewelry-photography-blue-ring008.jpg">
-      <img src="./public/img/tester/360-jewelry-photography-blue-ring009.jpg">
-      <img src="./public/img/tester/360-jewelry-photography-blue-ring010.jpg">
-    </slot>
-  </co-three-sixty>
-  
-  
+  <div class="row">
+    <div class="col">
+      <!--Demo with external-->
+      <h2>Demo with external data and manual init</h2>
+      <co-three-sixty id="co-three-sixty-viewer-from-data"
+                      start-index="1"
+                      spin-speed="100"
+                      auto-spin="true"
+                      debug="false"
+                      init-on-load="false">
+      </co-three-sixty>
+      <div class="demo-actions">
+        <!--Demo init-->
+        <button class="btn js-init">Init</button>
+      </div>
+
+    </div>
+  </div>
+
 </div>
 <!-- Load script -->
 <script src="./dist/co-three-sixty.js"></script>
@@ -114,16 +203,64 @@
           spinSpeed: 100,
           autoSpin: false,
           leadingZeroPadding: 3
+      },
+      car: {
+          folder: './public/img/car/',
+          filename: '{index}.jpg',
+          amount: 36,
+          startIndex: 1,
+          spinSpeed: 100,
+          autoSpin: true,
+          leadingZeroPadding: 2,
+          imageList:[
+              "./public/img/car/01.jpg",
+              "./public/img/car/02.jpg",
+              "./public/img/car/03.jpg",
+              "./public/img/car/04.jpg",
+              "./public/img/car/05.jpg",
+              "./public/img/car/06.jpg",
+              "./public/img/car/07.jpg",
+              "./public/img/car/08.jpg",
+              "./public/img/car/09.jpg",
+              "./public/img/car/10.jpg",
+              "./public/img/car/11.jpg",
+              "./public/img/car/12.jpg",
+              "./public/img/car/13.jpg",
+              "./public/img/car/14.jpg",
+              "./public/img/car/15.jpg",
+              "./public/img/car/16.jpg",
+              "./public/img/car/17.jpg",
+              "./public/img/car/18.jpg",
+              "./public/img/car/19.jpg",
+              "./public/img/car/20.jpg",
+              "./public/img/car/21.jpg",
+              "./public/img/car/22.jpg",
+              "./public/img/car/23.jpg",
+              "./public/img/car/24.jpg",
+              "./public/img/car/25.jpg",
+              "./public/img/car/26.jpg",
+              "./public/img/car/27.jpg",
+              "./public/img/car/28.jpg",
+              "./public/img/car/29.jpg",
+              "./public/img/car/30.jpg",
+              "./public/img/car/31.jpg",
+              "./public/img/car/32.jpg",
+              "./public/img/car/33.jpg",
+              "./public/img/car/34.jpg",
+              "./public/img/car/35.jpg",
+              "./public/img/car/36.jpg"
+          ]
       }
   }
   /* Demo external methods */
   const updatableViewer = document.querySelector( '#co-three-sixty-viewer-updatable' );
+  const initViewer = document.querySelector( '#co-three-sixty-viewer-from-data' );
   document.querySelector( '.variant-selector-input' ).addEventListener( 'change', ( event ) => {
       const jsonEntry = window.viewerJSON[ event.target.value ];
       updatableViewer.update( jsonEntry )
   } );
   document.querySelector( '.js-init' ).addEventListener( 'click', ( event ) => {
-      updatableViewer.init( )
+      initViewer.init( window.viewerJSON.car )
   } );
 </script>
 </body>
