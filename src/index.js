@@ -1,5 +1,5 @@
 import { getStyle } from './helpers/style'
-import { getIcon } from './helpers/icon';
+import { iconHelper } from './helpers/icon';
 import { debug } from './helpers/debug';
 import { optionsHelper } from './helpers/options'
 import { imageHelper } from './helpers/images'
@@ -50,7 +50,7 @@ class CoThreeSixty extends HTMLElement {
         this.canvas.height = this.options.height;
         this.canvas.setAttribute( 'class', 'co-three-sixty-canvas' );
         /* Create icon */
-        this.createIcon();
+        iconHelper.createIcon( this );
         /* Append element to shadow-dom */
         this.shadow.appendChild( style );
         this.container.appendChild( this.canvas );
@@ -88,15 +88,6 @@ class CoThreeSixty extends HTMLElement {
         this.canvas.addEventListener( 'dragleave', this.handleMouseUp.bind( this ) );
     }
 
-    createIcon () {
-        const icon  = getIcon();
-        icon.onload = () => {
-            this.container.appendChild( icon );
-            this.svgIcon = icon;
-        }
-        icon.addEventListener( 'click', this.autoSpin.bind( this ) );
-    }
-
     update ( objUpdatedOptions ) {
         this.setState( 'loading' );
         this.options   = Object.assign( {}, this.defaultOptions, objUpdatedOptions );
@@ -109,6 +100,7 @@ class CoThreeSixty extends HTMLElement {
     autoSpin () {
         let hasCycled    = false;
         const startIndex = this.rotation;
+        this.svgIcon.classList.add( 'is-rotating' );
         const interval   = setInterval( () => {
             if ( hasCycled === false && this.rotation < this.options.amount ) {
                 this.rotation++;
@@ -126,6 +118,7 @@ class CoThreeSixty extends HTMLElement {
                 }
                 else {
                     clearInterval( interval );
+                    this.svgIcon.classList.remove( 'is-rotating' );
                     this.rotation = startIndex;
                 }
             }
