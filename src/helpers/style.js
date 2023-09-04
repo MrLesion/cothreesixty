@@ -10,8 +10,8 @@
 				width: 100%;
 			}
 			.co-three-sixty-icon{
-				position: absolute;
-				bottom:10%;
+				//position: absolute;
+				bottom:0%;
 				width: 100%;
 				left:0;
 				opacity:1;
@@ -19,7 +19,7 @@
 				transition: opacity .3s ease;
 			}
 			.co-three-sixty-icon.is-rotating{
-			    opacity: 0;
+			    //opacity: 0;
 			}
 		`;
     return styleSheet;

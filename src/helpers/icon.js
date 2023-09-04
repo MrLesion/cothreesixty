@@ -14,6 +14,7 @@
         const icon  = this.getIcon();
         icon.onload = () => {
             instance.container.appendChild( icon );
+            //instance.context.drawImage( icon, (instance.canvas.width / 2 - icon.width / 2), (instance.canvas.height - icon.height - 100), 100, 100 );
             instance.svgIcon = icon;
         }
         icon.addEventListener( 'click', instance.autoSpin.bind( instance ) );

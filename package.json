@@ -1,13 +1,13 @@
 {
-  "name": "360",
+  "name": "co-three-sixty",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
-    "start": "webpack --watch"
+    "build": "webpack --env=mode=production",
+    "start": "webpack --watch --env=mode=development"
   },
-  "author": "",
+  "author": "Lasse Hove Nielsen",
   "license": "ISC",
   "devDependencies": {
     "webpack": "^5.88.1",

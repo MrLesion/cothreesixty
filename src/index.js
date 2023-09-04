@@ -1,8 +1,8 @@
 import { getStyle } from './helpers/style'
 import { iconHelper } from './helpers/icon';
 import { debug } from './helpers/debug';
-import { optionsHelper } from './helpers/options'
-import { imageHelper } from './helpers/images'
+import { isOptionsValid, setOptions } from './helpers/options'
+import { mapImages, preloadImages, drawImage } from './helpers/images'
 
 class CoThreeSixty extends HTMLElement {
     constructor () {
@@ -37,7 +37,7 @@ class CoThreeSixty extends HTMLElement {
             height: 500
         };
         this.options        = Object.assign( {}, this.defaultOptions );
-        optionsHelper.setOptions( this );
+        setOptions( this );
         /* Set container */
         this.container.setAttribute( 'class', 'co-three-sixty' );
         this.setState( this.state );
@@ -63,13 +63,13 @@ class CoThreeSixty extends HTMLElement {
     init ( objOptions = null ) {
         if ( objOptions !== null ) {
             this.options = Object.assign( {}, this.defaultOptions, objOptions );
-            optionsHelper.setOptions( this );
+            setOptions( this );
         }
-        if ( optionsHelper.isOptionsValid( this ) === true ) {
-            const imagePaths = imageHelper.mapImages( this );
-            imageHelper.preloadImages( this, imagePaths ).then( () => {
+        if ( isOptionsValid( this ) === true ) {
+            const imagePaths = mapImages( this );
+            preloadImages( this, imagePaths ).then( () => {
                 debug( this, 'Initialized' );
-                imageHelper.drawImage( this );
+                drawImage( this );
                 if ( this.options.autoSpin === true ) {
                     this.autoSpin();
                 }
@@ -101,10 +101,10 @@ class CoThreeSixty extends HTMLElement {
         let hasCycled    = false;
         const startIndex = this.rotation;
         this.svgIcon.classList.add( 'is-rotating' );
-        const interval   = setInterval( () => {
+        const interval = setInterval( () => {
             if ( hasCycled === false && this.rotation < this.options.amount ) {
                 this.rotation++;
-                imageHelper.drawImage( this );
+                drawImage( this );
             }
             else {
                 if ( hasCycled === false ) {
@@ -114,7 +114,7 @@ class CoThreeSixty extends HTMLElement {
                 }
                 if ( this.rotation < startIndex ) {
                     this.rotation++;
-                    imageHelper.drawImage( this );
+                    drawImage( this );
                 }
                 else {
                     clearInterval( interval );
@@ -136,11 +136,11 @@ class CoThreeSixty extends HTMLElement {
         if ( this.isDragging ) {
             this.svgIcon.classList.add( 'is-rotating' );
             const currentPositionX = this.isMobile ? event.touches[ 0 ].clientX : event.clientX;
+            const amount           = this.options.amount;
             const deltaX           = ( currentPositionX - this.prevX );
             const direction        = deltaX > 0 ? 1 : deltaX < 0 ? -1 : 0;
-            const amount           = this.options.amount;
             this.totalDistance += Math.abs( deltaX );
-            if ( this.totalDistance % 2 === 0 ) {
+            if ( ( this.totalDistance + amount ) % 2 === 0 ) {
                 this.rotation += direction;
             }
             if ( this.rotation < 1 ) {
@@ -149,7 +149,7 @@ class CoThreeSixty extends HTMLElement {
             else if ( this.rotation > amount ) {
                 this.rotation = 1;
             }
-            imageHelper.drawImage( this );
+            drawImage( this );
             this.prevX = this.isMobile ? event.touches[ 0 ].clientX : event.clientX;
         }
     }
