@@ -1,4 +1,4 @@
-﻿export const getStyle = () => {
+﻿function createStyle(){
     const styleSheet = document.createElement( 'style' );
     styleSheet.textContent = `
 			.co-three-sixty{
@@ -22,5 +22,7 @@
 			    //opacity: 0;
 			}
 		`;
-    return styleSheet;
+    this.shadow.appendChild( styleSheet );
 }
+
+export {createStyle};

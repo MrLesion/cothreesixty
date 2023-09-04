@@ -3,26 +3,29 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Co-three-sixty</title>
+  <title>Co-three-sixty demos</title>
 </head>
 <style type="text/css">
+    *{
+        box-sizing: border-box;
+    }
     .container {
         max-width: 1200px;
         width: 100%;
-        margin: 0 auto;
+        margin: 1em auto;
+        font-family: sans-serif;
     }
-    .row {
-        width:100%;
-        display: flex;
-        margin-bottom: 1em;
+    .grid-container {
+        display: grid;
+        column-gap: 50px;
+        grid-template-columns: auto auto;
     }
-    .col {
-        flex: 1 1 50%;
-        max-width: 50%;
-        margin: 0 1em;
+    .grid-item {
+        position: relative;
     }
     
     .demo-actions{
+        padding: .5em;
         display: flex;
         align-items: center;
         justify-content: space-around;
@@ -49,8 +52,8 @@
 
 <body>
 <div class="container">
-  <div class="row">
-    <div class="col">
+  <div class="grid-container">
+    <div class="grid-item">
       <!-- Demo with attributes -->
       <h2>Demo with attributes</h2>
       <co-three-sixty id="co-three-sixty-viewer-updatable"
@@ -76,7 +79,7 @@
         </div>
       </div>
     </div>
-    <div class="col">
+    <div class="grid-item">
       <!--Demo with slots-->
       <h2>Demo with attributes and slots</h2>
       <co-three-sixty id="co-three-sixty-viewer-slotted"
@@ -161,9 +164,7 @@
         </slot>
       </co-three-sixty>
     </div>
-  </div>
-  <div class="row">
-    <div class="col">
+    <div class="grid-item">
       <!--Demo with external-->
       <h2>Demo with external data and manual init</h2>
       <co-three-sixty id="co-three-sixty-viewer-from-data"

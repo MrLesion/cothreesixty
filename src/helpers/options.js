@@ -1,7 +1,8 @@
-﻿const getOptionName = ( strOptionsName ) => {
+﻿function getOptionName ( strOptionsName ) {
     return strOptionsName.split( '-' ).map( ( char, index ) => index ? char.charAt( 0 ).toUpperCase() + char.slice( 1 ).toLowerCase() : char.toLowerCase() ).join( '' );
-};
-const getOptionValue = ( strAttribute ) => {
+}
+
+function getOptionValue ( strAttribute ) {
     let value = Number( strAttribute );
     if ( isNaN( value ) ) {
         value = strAttribute;
@@ -13,21 +14,24 @@ const getOptionValue = ( strAttribute ) => {
         }
     }
     return value;
-};
-const isOptionsValid = ( instance ) => {
-    if ( instance.imageSlot !== null ) {
-        return instance.imageSlot.querySelectorAll( 'img' ).length > 0;
+}
+
+function isOptionsValid () {
+    if ( this.imageSlot !== null ) {
+        return this.imageSlot.querySelectorAll( 'img' ).length > 0;
     }
-    return instance.options.amount > 0 && instance.options.folder !== '' && instance.options.filename !== '';
-};
-const setOptions     = ( instance ) => {
-    instance.getAttributeNames().forEach( ( attributeName ) => {
+    return this.options.amount > 0 && this.options.folder !== '' && this.options.filename !== '';
+}
+
+function setOptions () {
+    this.getAttributeNames().forEach( ( attributeName ) => {
         {
-            instance.options[ getOptionName( attributeName ) ] = getOptionValue( instance.getAttribute( attributeName ) );
+            this.options[ getOptionName( attributeName ) ] = getOptionValue( this.getAttribute( attributeName ) );
         }
     } );
-    if ( instance.imageSlot !== null ) {
-        instance.options.amount = instance.imageSlot.querySelectorAll( 'img' ).length;
+    if ( this.imageSlot !== null ) {
+        this.options.amount = this.imageSlot.querySelectorAll( 'img' ).length;
     }
-};
+}
+
 export { getOptionName, getOptionValue, isOptionsValid, setOptions }

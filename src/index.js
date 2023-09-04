@@ -1,8 +1,9 @@
-import { getStyle } from './helpers/style'
-import { iconHelper } from './helpers/icon';
+import { createStyle } from './helpers/style'
+import { createIcon } from './helpers/icon';
 import { debug } from './helpers/debug';
 import { isOptionsValid, setOptions } from './helpers/options'
 import { mapImages, preloadImages, drawImage } from './helpers/images'
+import { createToolbar } from './helpers/toolbar'
 
 class CoThreeSixty extends HTMLElement {
     constructor () {
@@ -34,25 +35,29 @@ class CoThreeSixty extends HTMLElement {
             leadingZeroPadding: 0,
             initOnLoad: true,
             width: 500,
-            height: 500
+            height: 500,
+            tools: [
+                'spin',
+                'zoom'
+            ]
         };
         this.options        = Object.assign( {}, this.defaultOptions );
-        setOptions( this );
+        setOptions.call( this );
         /* Set container */
         this.container.setAttribute( 'class', 'co-three-sixty' );
         this.setState( this.state );
-        /* Create style */
-        const style = getStyle();
         /* Update rotation start index from options */
         this.rotation = this.options.startIndex;
         /* Setup canvas */
         this.canvas.width  = this.options.width;
         this.canvas.height = this.options.height;
         this.canvas.setAttribute( 'class', 'co-three-sixty-canvas' );
+        /* Create style */
+        createStyle.call( this );
         /* Create icon */
-        iconHelper.createIcon( this );
+        createIcon.call( this );
+        createToolbar.call( this );
         /* Append element to shadow-dom */
-        this.shadow.appendChild( style );
         this.container.appendChild( this.canvas );
         this.shadow.appendChild( this.container );
         if ( this.options.initOnLoad === true ) {
@@ -63,13 +68,13 @@ class CoThreeSixty extends HTMLElement {
     init ( objOptions = null ) {
         if ( objOptions !== null ) {
             this.options = Object.assign( {}, this.defaultOptions, objOptions );
-            setOptions( this );
+            setOptions.call( this );
         }
-        if ( isOptionsValid( this ) === true ) {
-            const imagePaths = mapImages( this );
-            preloadImages( this, imagePaths ).then( () => {
+        if ( isOptionsValid.call( this ) === true ) {
+            const imagePaths = mapImages.call( this );
+            preloadImages.call( this, imagePaths ).then( () => {
                 debug( this, 'Initialized' );
-                drawImage( this );
+                drawImage.call( this );
                 if ( this.options.autoSpin === true ) {
                     this.autoSpin();
                 }
@@ -104,7 +109,7 @@ class CoThreeSixty extends HTMLElement {
         const interval = setInterval( () => {
             if ( hasCycled === false && this.rotation < this.options.amount ) {
                 this.rotation++;
-                drawImage( this );
+                drawImage.call( this );
             }
             else {
                 if ( hasCycled === false ) {
@@ -114,7 +119,7 @@ class CoThreeSixty extends HTMLElement {
                 }
                 if ( this.rotation < startIndex ) {
                     this.rotation++;
-                    drawImage( this );
+                    drawImage.call( this );
                 }
                 else {
                     clearInterval( interval );
@@ -149,7 +154,7 @@ class CoThreeSixty extends HTMLElement {
             else if ( this.rotation > amount ) {
                 this.rotation = 1;
             }
-            drawImage( this );
+            drawImage.call( this );
             this.prevX = this.isMobile ? event.touches[ 0 ].clientX : event.clientX;
         }
     }

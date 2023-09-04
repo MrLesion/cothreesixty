@@ -1,35 +1,36 @@
 ﻿import { debug } from './debug';
 
-const mapImages     = ( instance ) => {
-    if ( instance.imageSlot !== null ) {
+function mapImages () {
+    if ( this.imageSlot !== null ) {
         return [];
     }
     else {
-        let amount = instance.options.amount;
-        if ( instance.options.imageList.length > 0 ) {
-            amount = instance.options.imageList.length
+        let amount = this.options.amount;
+        if ( this.options.imageList.length > 0 ) {
+            amount = this.options.imageList.length
         }
         return [ ...new Array( amount ) ].map( ( _item, index ) => {
-            let imageIndex = ( index + instance.options.startIndex );
+            let imageIndex = ( index + this.options.startIndex );
             let imageName  = imageIndex.toString();
-            if ( instance.options.leadingZeroPadding > 0 ) {
-                imageName = imageName.padStart( instance.options.leadingZeroPadding, '0' );
+            if ( this.options.leadingZeroPadding > 0 ) {
+                imageName = imageName.padStart( this.options.leadingZeroPadding, '0' );
             }
-            const imagePath = `${instance.options.folder}${instance.options.filename}`;
+            const imagePath = `${this.options.folder}${this.options.filename}`;
             return imagePath.replace( '{index}', imageName );
         } );
     }
-};
-const preloadImages = ( instance, imagePaths ) => {
-    if ( instance.imageSlot !== null ) {
+}
+
+function preloadImages ( imagePaths ) {
+    if ( this.imageSlot !== null ) {
         return new Promise( ( resolve, reject ) => {
-            instance.images = [ ...Array.from( instance.imageSlot.querySelectorAll( 'img' ) ) ];
-            resolve( instance.images );
+            this.images = [ ...Array.from( this.imageSlot.querySelectorAll( 'img' ) ) ];
+            resolve( this.images );
         } );
     }
     else {
         return new Promise( ( resolve, reject ) => {
-            instance.images      = [];
+            this.images          = [];
             let loadedImageCount = 0;
             for ( let i = 0; i < imagePaths.length; i++ ) {
                 ( ( index ) => {
@@ -37,9 +38,9 @@ const preloadImages = ( instance, imagePaths ) => {
                     image.src     = imagePaths[ index ];
                     image.onload  = () => {
                         loadedImageCount++;
-                        instance.images[ index ] = image;
+                        this.images[ index ] = image;
                         if ( loadedImageCount === imagePaths.length ) {
-                            resolve( instance.images );
+                            resolve( this.images );
                         }
                     };
                     image.onerror = () => {
@@ -49,17 +50,19 @@ const preloadImages = ( instance, imagePaths ) => {
             }
         } );
     }
-};
-const drawImage     = ( instance ) => {
-    const image = instance.images[ instance.rotation - instance.options.startIndex ];
-    if ( instance.state === 'loading' ) {
-        instance.canvas.width  = image.width;
-        instance.canvas.height = image.height;
-        instance.setState( 'ready' );
+}
+
+function drawImage () {
+    const image = this.images[ this.rotation - this.options.startIndex ];
+    if ( this.state === 'loading' ) {
+        this.canvas.width  = image.width;
+        this.canvas.height = image.height;
+        this.setState( 'ready' );
     }
-    instance.context.clearRect( 0, 0, instance.canvas.width, instance.canvas.height );
-    image.width = instance.canvas.width;
-    debug( instance, `Drawing image ${instance.rotation}` );
-    instance.context.drawImage( image, 0, 0, instance.canvas.width, instance.canvas.height );
-};
+    this.context.clearRect( 0, 0, this.canvas.width, this.canvas.height );
+    image.width = this.canvas.width;
+    debug( this, `Drawing image ${this.rotation}` );
+    this.context.drawImage( image, 0, 0, this.canvas.width, this.canvas.height );
+}
+
 export { mapImages, preloadImages, drawImage }
