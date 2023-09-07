@@ -23,7 +23,8 @@ function isOptionsValid () {
     return this.options.amount > 0 && this.options.folder !== '' && this.options.filename !== '';
 }
 
-function setOptions () {
+function setOptions ( objOptions = {} ) {
+    this.options = Object.assign( {}, this.defaultOptions, objOptions );
     this.getAttributeNames().forEach( ( attributeName ) => {
         {
             this.options[ getOptionName( attributeName ) ] = getOptionValue( this.getAttribute( attributeName ) );

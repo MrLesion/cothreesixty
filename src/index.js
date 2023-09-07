@@ -1,9 +1,9 @@
+import { log, warn, error } from './helpers/debug';
 import { createStyle } from './helpers/style'
-import { createIcon } from './helpers/icon';
-import { debug } from './helpers/debug';
+import { create360Icon } from './helpers/icon';
+import { createToolbar } from './helpers/toolbar'
 import { isOptionsValid, setOptions } from './helpers/options'
 import { mapImages, preloadImages, drawImage } from './helpers/images'
-import { createToolbar } from './helpers/toolbar'
 
 class CoThreeSixty extends HTMLElement {
     constructor () {
@@ -15,11 +15,11 @@ class CoThreeSixty extends HTMLElement {
         this.context       = this.canvas.getContext( '2d' );
         this.container     = document.createElement( 'div' );
         this.state         = 'loading';
-        this.svgIcon       = null;
         this.isDragging    = false;
         this.prevX         = 0;
         this.totalDistance = 0;
         this.isMobile      = !!( 'ontouchstart' in window || navigator.msMaxTouchPoints );
+        this.zoomLevel     = 1;
         this.images        = [];
         this.imageSlot     = this.querySelector( 'slot[name="imageList"]' );
         /* Create and set options */
@@ -36,12 +36,8 @@ class CoThreeSixty extends HTMLElement {
             initOnLoad: true,
             width: 500,
             height: 500,
-            tools: [
-                'spin',
-                'zoom'
-            ]
+            tools: ['spin']
         };
-        this.options        = Object.assign( {}, this.defaultOptions );
         setOptions.call( this );
         /* Set container */
         this.container.setAttribute( 'class', 'co-three-sixty' );
@@ -55,7 +51,8 @@ class CoThreeSixty extends HTMLElement {
         /* Create style */
         createStyle.call( this );
         /* Create icon */
-        createIcon.call( this );
+        create360Icon.call( this );
+        /* Create toolbar */
         createToolbar.call( this );
         /* Append element to shadow-dom */
         this.container.appendChild( this.canvas );
@@ -67,13 +64,12 @@ class CoThreeSixty extends HTMLElement {
 
     init ( objOptions = null ) {
         if ( objOptions !== null ) {
-            this.options = Object.assign( {}, this.defaultOptions, objOptions );
-            setOptions.call( this );
+            setOptions.call( this, objOptions );
         }
         if ( isOptionsValid.call( this ) === true ) {
             const imagePaths = mapImages.call( this );
             preloadImages.call( this, imagePaths ).then( () => {
-                debug( this, 'Initialized' );
+                log.call( this, 'Initialized', this.options );
                 drawImage.call( this );
                 if ( this.options.autoSpin === true ) {
                     this.autoSpin();
@@ -82,15 +78,18 @@ class CoThreeSixty extends HTMLElement {
             } )
         }
         else {
-            console.error( 'Options fail', this.options );
+            error.call( this, 'Options fail', this.options );
         }
     }
 
     bindEvents () {
+        this.container.addEventListener( 'mouseover', this.handleMouseOver.bind( this ) );
+        this.container.addEventListener( 'mouseleave', this.handleMouseLeave.bind( this ) );
         this.canvas.addEventListener( 'mousedown', this.handleMouseDown.bind( this ) );
         this.canvas.addEventListener( 'mousemove', this.handleMouseMove.bind( this ) );
         this.canvas.addEventListener( 'mouseup', this.handleMouseUp.bind( this ) );
         this.canvas.addEventListener( 'dragleave', this.handleMouseUp.bind( this ) );
+        this.canvas.addEventListener( 'wheel', this.handleMouseWheel.bind( this ) );
     }
 
     update ( objUpdatedOptions ) {
@@ -105,15 +104,14 @@ class CoThreeSixty extends HTMLElement {
     autoSpin () {
         let hasCycled    = false;
         const startIndex = this.rotation;
-        this.svgIcon.classList.add( 'is-rotating' );
-        const interval = setInterval( () => {
+        const interval   = setInterval( () => {
             if ( hasCycled === false && this.rotation < this.options.amount ) {
                 this.rotation++;
                 drawImage.call( this );
             }
             else {
                 if ( hasCycled === false ) {
-                    debug( this, 'rotation limit reached, setting hasCycled to true' );
+                    log.call( this, 'rotation limit reached, setting hasCycled to true' );
                     this.rotation = this.options.startIndex;
                     hasCycled     = true;
                 }
@@ -123,11 +121,25 @@ class CoThreeSixty extends HTMLElement {
                 }
                 else {
                     clearInterval( interval );
-                    this.svgIcon.classList.remove( 'is-rotating' );
                     this.rotation = startIndex;
                 }
             }
         }, this.options.spinSpeed );
+    }
+
+    zoom () {
+        warn.call( this, 'Not implemented yet' );
+    }
+
+    pan ( event ) {
+        warn.call( this, 'Not implemented yet' );
+    }
+
+    handleMouseOver(){
+        this.container.classList.add('is-interacting');
+    }
+    handleMouseLeave(){
+        this.container.classList.remove('is-interacting');
     }
 
     handleMouseDown ( event ) {
@@ -139,7 +151,6 @@ class CoThreeSixty extends HTMLElement {
 
     handleMouseMove ( event ) {
         if ( this.isDragging ) {
-            this.svgIcon.classList.add( 'is-rotating' );
             const currentPositionX = this.isMobile ? event.touches[ 0 ].clientX : event.clientX;
             const amount           = this.options.amount;
             const deltaX           = ( currentPositionX - this.prevX );
@@ -162,11 +173,14 @@ class CoThreeSixty extends HTMLElement {
     handleMouseUp () {
         this.canvas.style.cursor = 'auto';
         this.isDragging          = false;
-        this.svgIcon.classList.remove( 'is-rotating' );
+    }
+
+    handleMouseWheel ( event ) {
     }
 
     setState ( state ) {
         this.state = state;
+        log.call( this, `Setting state to ${state}` );
         this.setAttribute( 'state', this.state );
     }
 }

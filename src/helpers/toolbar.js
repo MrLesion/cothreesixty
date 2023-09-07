@@ -1,15 +1,16 @@
-﻿function createToolbar () {
+﻿import {getToolIcon} from './icon'
+function createToolbar () {
     if ( this.options.tools.length ) {
-        const container = document.createElement('div');
-        container.setAttribute('class', 'co-three-sixty-toolbar');
+        const toolBarContainer = document.createElement('div');
+        toolBarContainer.setAttribute('class', 'co-three-sixty-toolbar');
         this.options.tools.forEach((tool) =>{
             const toolElement = document.createElement('div');
             toolElement.setAttribute('class', `co-three-sixty-toolbar-item co-three-sixty-toolbar-item-${tool}`);
-            toolElement.textContent = tool;
+            toolElement.innerHTML = getToolIcon(tool);
             toolElement.addEventListener('click', toolEvent.bind(this, tool));
-            container.appendChild(toolElement);
+            toolBarContainer.appendChild(toolElement);
         });
-        this.container.appendChild(container);
+        this.container.appendChild(toolBarContainer);
     }
 }
 
@@ -20,7 +21,8 @@ function toolEvent (...args) {
             this.autoSpin.call( this );
             break;
         case 'zoom':
-            console.warn(`Tool "${tool}" is not implemented yet`)
+            //this.zoomLevel = 2;
+            //this.zoom.call(this);
             break;
     }
 }

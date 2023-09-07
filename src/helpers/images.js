@@ -1,4 +1,4 @@
-﻿import { debug } from './debug';
+﻿import { log } from './debug';
 
 function mapImages () {
     if ( this.imageSlot !== null ) {
@@ -10,8 +10,8 @@ function mapImages () {
             amount = this.options.imageList.length
         }
         return [ ...new Array( amount ) ].map( ( _item, index ) => {
-            let imageIndex = ( index + this.options.startIndex );
-            let imageName  = imageIndex.toString();
+            const imageIndex = ( index + this.options.startIndex );
+            let imageName    = imageIndex.toString();
             if ( this.options.leadingZeroPadding > 0 ) {
                 imageName = imageName.padStart( this.options.leadingZeroPadding, '0' );
             }
@@ -61,7 +61,7 @@ function drawImage () {
     }
     this.context.clearRect( 0, 0, this.canvas.width, this.canvas.height );
     image.width = this.canvas.width;
-    debug( this, `Drawing image ${this.rotation}` );
+    log.call( this, `Drawing image ${this.rotation}` );
     this.context.drawImage( image, 0, 0, this.canvas.width, this.canvas.height );
 }
 
