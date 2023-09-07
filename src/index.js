@@ -159,11 +159,11 @@ class CoThreeSixty extends HTMLElement {
             if ( ( this.totalDistance + amount ) % 2 === 0 ) {
                 this.rotation += direction;
             }
-            if ( this.rotation < 1 ) {
+            if ( this.rotation < this.options.startIndex ) {
                 this.rotation = amount;
             }
             else if ( this.rotation > amount ) {
-                this.rotation = 1;
+                this.rotation = this.options.startIndex;
             }
             drawImage.call( this );
             this.prevX = this.isMobile ? event.touches[ 0 ].clientX : event.clientX;
@@ -176,6 +176,26 @@ class CoThreeSixty extends HTMLElement {
     }
 
     handleMouseWheel ( event ) {
+        event.preventDefault();
+        if(this.zoomLevel === 1){
+            if(event.deltaY  > 0)
+            {
+                this.rotation--;
+            }
+            else
+            {
+                this.rotation++;
+            }
+            
+            if ( this.rotation < this.options.startIndex ) {
+                this.rotation = this.options.amount;
+            }
+            else if ( this.rotation > this.options.amount ) {
+                this.rotation = this.options.startIndex;
+            }
+            drawImage.call(this);
+        }
+        
     }
 
     setState ( state ) {

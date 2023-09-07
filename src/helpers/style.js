@@ -7,10 +7,12 @@
 				box-shadow: 0 0 3px 1px rgba(0,0,0,.25);
 			}
 			.co-three-sixty.is-interacting .co-three-sixty-icon{
+			    display:none;
 				opacity:0;
 			}
 			.co-three-sixty-canvas{
 				width: 100%;
+				display: block;
 			}
 			.co-three-sixty-icon{
 				position: absolute;
