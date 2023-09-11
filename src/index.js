@@ -41,8 +41,7 @@ class CoThreeSixty extends HTMLElement {
             width: 500,
             height: 500,
             tools: [
-                'spin',
-                'zoom'
+                'spin'
             ]
         };
         setOptions.call( this );
