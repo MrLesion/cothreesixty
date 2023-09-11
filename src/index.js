@@ -20,6 +20,10 @@ class CoThreeSixty extends HTMLElement {
         this.totalDistance = 0;
         this.isMobile      = !!( 'ontouchstart' in window || navigator.msMaxTouchPoints );
         this.zoomLevel     = 1;
+        this.panning       = {
+            x: 0,
+            y: 0
+        };
         this.images        = [];
         this.imageSlot     = this.querySelector( 'slot[name="imageList"]' );
         /* Create and set options */
@@ -36,7 +40,10 @@ class CoThreeSixty extends HTMLElement {
             initOnLoad: true,
             width: 500,
             height: 500,
-            tools: ['spin']
+            tools: [
+                'spin',
+                'zoom'
+            ]
         };
         setOptions.call( this );
         /* Set container */
@@ -127,19 +134,21 @@ class CoThreeSixty extends HTMLElement {
         }, this.options.spinSpeed );
     }
 
-    zoom () {
-        warn.call( this, 'Not implemented yet' );
+    zoom ( zoomLevel = 1 ) {
+        this.zoomLevel = zoomLevel;
+        drawImage.call( this );
     }
 
     pan ( event ) {
         warn.call( this, 'Not implemented yet' );
     }
 
-    handleMouseOver(){
-        this.container.classList.add('is-interacting');
+    handleMouseOver () {
+        this.container.classList.add( 'is-interacting' );
     }
-    handleMouseLeave(){
-        this.container.classList.remove('is-interacting');
+
+    handleMouseLeave () {
+        this.container.classList.remove( 'is-interacting' );
     }
 
     handleMouseDown ( event ) {
@@ -168,6 +177,18 @@ class CoThreeSixty extends HTMLElement {
             drawImage.call( this );
             this.prevX = this.isMobile ? event.touches[ 0 ].clientX : event.clientX;
         }
+        else {
+            if ( this.zoomLevel > 1 ) {
+                const rect          = this.canvas.getBoundingClientRect();
+                const mousePosition = {
+                    x: event.clientX,
+                    y: event.clientY
+                };
+                this.panning.x = mousePosition.x * this.zoomLevel;
+                this.panning.y = mousePosition.y * this.zoomLevel;
+                drawImage.call( this );
+            }
+        }
     }
 
     handleMouseUp () {
@@ -177,25 +198,21 @@ class CoThreeSixty extends HTMLElement {
 
     handleMouseWheel ( event ) {
         event.preventDefault();
-        if(this.zoomLevel === 1){
-            if(event.deltaY  > 0)
-            {
+        if ( this.zoomLevel === 1 ) {
+            if ( event.deltaY > 0 ) {
                 this.rotation--;
             }
-            else
-            {
+            else {
                 this.rotation++;
             }
-            
             if ( this.rotation < this.options.startIndex ) {
                 this.rotation = this.options.amount;
             }
             else if ( this.rotation > this.options.amount ) {
                 this.rotation = this.options.startIndex;
             }
-            drawImage.call(this);
+            drawImage.call( this );
         }
-        
     }
 
     setState ( state ) {

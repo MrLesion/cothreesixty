@@ -1,4 +1,5 @@
 ﻿import {getToolIcon} from './icon'
+import { drawImage } from './images';
 function createToolbar () {
     if ( this.options.tools.length ) {
         const toolBarContainer = document.createElement('div');
@@ -21,8 +22,14 @@ function toolEvent (...args) {
             this.autoSpin.call( this );
             break;
         case 'zoom':
-            //this.zoomLevel = 2;
-            //this.zoom.call(this);
+            if(this.zoomLevel > 1){
+                this.panning.x = 0;
+                this.panning.y = 0;
+                this.zoom.call( this, 1 );
+            } else{
+                this.zoom.call( this, 3 );
+            }
+            
             break;
     }
 }

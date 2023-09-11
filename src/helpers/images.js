@@ -53,6 +53,7 @@ function preloadImages ( imagePaths ) {
 }
 
 function drawImage () {
+    const scale = this.zoomLevel;
     const image = this.images[ this.rotation - this.options.startIndex ];
     if ( this.state === 'loading' ) {
         this.canvas.width  = image.width;
@@ -62,7 +63,15 @@ function drawImage () {
     this.context.clearRect( 0, 0, this.canvas.width, this.canvas.height );
     image.width = this.canvas.width;
     log.call( this, `Drawing image ${this.rotation}` );
-    this.context.drawImage( image, 0, 0, this.canvas.width, this.canvas.height );
+    const sx = scale > 1 ? image.width / ( scale * scale ) : 0;
+    const sy = scale > 1 ? image.height / ( scale * scale ) : 0;
+    const sw = image.width;
+    const sh = image.height;
+    const dx = -this.panning.x;
+    const dy = -this.panning.y;
+    const dw = this.canvas.width * scale;
+    const dh = this.canvas.height * scale;
+    this.context.drawImage( image, sx, sy, sw, sh, dx, dy, dw, dh );
 }
 
 export { mapImages, preloadImages, drawImage }
