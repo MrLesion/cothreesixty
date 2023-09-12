@@ -264,6 +264,10 @@
   document.querySelector( '.js-init' ).addEventListener( 'click', ( event ) => {
       initViewer.init( window.viewerJSON.car )
   } );
+
+  updatableViewer.addEventListener('loaded', (event) =>{
+      console.log(event);
+  })
 </script>
 </body>
 

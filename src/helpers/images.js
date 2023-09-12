@@ -1,4 +1,5 @@
 ﻿import { log } from './debug';
+import { setState } from './events';
 
 function mapImages () {
     if ( this.imageSlot !== null ) {
@@ -58,7 +59,7 @@ function drawImage () {
     if ( this.state === 'loading' ) {
         this.canvas.width  = image.width;
         this.canvas.height = image.height;
-        this.setState( 'ready' );
+        setState.call(this, 'ready');
     }
     this.context.clearRect( 0, 0, this.canvas.width, this.canvas.height );
     image.width = this.canvas.width;

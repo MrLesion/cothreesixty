@@ -19,7 +19,7 @@ function toolEvent (...args) {
     const tool = args[0];
     switch ( tool ) {
         case 'spin':
-            this.autoSpin.call( this );
+            this.spin.call( this );
             break;
         case 'zoom':
             if(this.zoomLevel > 1){
