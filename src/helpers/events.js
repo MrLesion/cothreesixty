@@ -22,8 +22,8 @@ function setState ( state ) {
 }
 
 function bindEvents () {
-    this.container.addEventListener( 'mouseenter', mouseEnter.bind( this ) );
-    this.container.addEventListener( 'mouseleave', mouseLeave.bind( this ) );
+    this.canvas.addEventListener( 'mouseenter', mouseEnter.bind( this ) );
+    this.canvas.addEventListener( 'mouseleave', mouseLeave.bind( this ) );
     this.canvas.addEventListener( 'mousedown', mouseDown.bind( this ) );
     this.canvas.addEventListener( 'mousemove', mouseMove.bind( this ) );
     this.canvas.addEventListener( 'mouseup', mouseUp.bind( this ) );
@@ -36,7 +36,7 @@ function mouseEnter () {
 }
 
 function mouseLeave () {
-    this.container.classList.add( 'is-interacting' );
+    this.container.classList.remove( 'is-interacting' );
 }
 
 function mouseDown ( event ) {

@@ -6,7 +6,7 @@ import { isOptionsValid, setOptions } from './helpers/options'
 import { mapImages, preloadImages, drawImage } from './helpers/images'
 import { emitEvent, bindEvents, setState } from './helpers/events';
 
-class CoThreeSixty extends HTMLElement {
+customElements.define( 'co-three-sixty', class extends HTMLElement {
     constructor () {
         super();
         /* Create shadow-root */
@@ -132,6 +132,4 @@ class CoThreeSixty extends HTMLElement {
     pan ( event ) {
         warn.call( this, 'Not implemented yet' );
     }
-}
-
-customElements.define( 'co-three-sixty', CoThreeSixty );
+} );

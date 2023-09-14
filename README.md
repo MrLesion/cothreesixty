@@ -45,7 +45,7 @@ The web component can be initiated in multiple ways:
 
 - `height: 500` (Default: 500): The height of the canvas. (Optional)
 
-- `tools: 'spin,zoom'` (Default: 'spin'): The tools to appear in the toolbar. Comma-seperated string of tools (Optional)
+- `tools: 'spin,zoom'` (Empty string): The tools to appear in the toolbar. Comma-seperated string of tools (Optional)
 
 ## Examples
 
