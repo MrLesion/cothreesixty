@@ -67,6 +67,7 @@ customElements.define( 'co-three-sixty', class extends HTMLElement {
         }
     }
 
+    /* Public init method */
     init ( objOptions = null ) {
         if ( objOptions !== null ) {
             setOptions.call( this, objOptions );
@@ -88,6 +89,7 @@ customElements.define( 'co-three-sixty', class extends HTMLElement {
         }
     }
 
+    /* Public update method */
     update ( objUpdatedOptions = {} ) {
         setState.call( this, 'loading' );
         this.options   = Object.assign( {}, this.defaultOptions, objUpdatedOptions );
@@ -98,6 +100,7 @@ customElements.define( 'co-three-sixty', class extends HTMLElement {
         this.init();
     }
 
+    /* Public spin method */
     spin () {
         let hasCycled    = false;
         const startIndex = this.rotation;
@@ -124,12 +127,9 @@ customElements.define( 'co-three-sixty', class extends HTMLElement {
         }, this.options.spinSpeed );
     }
 
+    /* Public zoom method */
     zoom ( zoomLevel = 1 ) {
         this.zoomLevel = zoomLevel;
         drawImage.call( this );
-    }
-
-    pan ( event ) {
-        warn.call( this, 'Not implemented yet' );
     }
 } );

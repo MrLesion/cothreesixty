@@ -1,5 +1,6 @@
 ﻿import { drawImage } from './images';
 import { log } from './debug';
+import { buildHtmlElement } from './utillities';
 
 function createEvent ( eventName, detail ) {
     return new CustomEvent( eventName, {

@@ -1,6 +1,7 @@
-﻿function createStyle(){
-    const styleSheet = document.createElement( 'style' );
-    styleSheet.textContent = `
+﻿import { buildHtmlElement } from './utillities';
+
+function createStyle(){
+    const style = `
 			.co-three-sixty{
 				position:relative;
 				width:100%;
@@ -44,6 +45,7 @@
 			    width: 25px;
 			}
 		`;
+    const styleSheet = buildHtmlElement('style', {}, style);
     this.shadow.appendChild( styleSheet );
 }
 

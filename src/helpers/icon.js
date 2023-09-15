@@ -15,7 +15,6 @@ function create360Icon () {
     icon.onload = () => {
         this.container.appendChild( icon );
     }
-    icon.addEventListener( 'click', this.spin.bind( this ) );
 }
 
 function getToolIcon ( iconName ) {
