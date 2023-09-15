@@ -11,6 +11,8 @@ function getOptionValue ( strAttribute ) {
         }
         else if ( value.toLowerCase() === 'false' ) {
             value = false;
+        } else if(value.indexOf(',') > -1){
+            value = value.split( ',' ).map( ( str ) => str );
         }
     }
     return value;

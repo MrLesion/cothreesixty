@@ -1,7 +1,7 @@
 ﻿# CoThreeSixty 360 image viewer
 
 ## Initialize
-- Loading script
+- Load script
 - Add web component with required options to page `<co-three-sixty></co-three-sixty>`
 
 The web component can be initiated in multiple ways:
@@ -44,6 +44,8 @@ The web component can be initiated in multiple ways:
 - `width: 500` (Default: 500): The width of the canvas. (Optional)
 
 - `height: 500` (Default: 500): The height of the canvas. (Optional)
+
+- `tools: 'spin,zoom'` (Empty string): The tools to appear in the toolbar. Comma-seperated string of tools (Optional)
 
 ## Examples
 
