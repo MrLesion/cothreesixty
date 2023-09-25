@@ -20,13 +20,18 @@ customElements.define( 'co-three-sixty', class extends HTMLElement {
         this.prevX         = 0;
         this.totalDistance = 0;
         this.isMobile      = !!( 'ontouchstart' in window || navigator.msMaxTouchPoints );
-        this.zoomLevel     = 1;
+        this.zooming = {
+            level: 1,
+            factor: 0.1,
+            offsetX: 0,
+            offsetY: 0
+        };
         this.panning       = {
             x: 0,
             y: 0
         };
         this.images        = [];
-        this.imageSlot     = this.querySelector( 'slot[name="imageList"]' );
+        
         /* Create and set options */
         this.defaultOptions = {
             folder: '',
@@ -43,6 +48,24 @@ customElements.define( 'co-three-sixty', class extends HTMLElement {
             height: 500,
             tools: []
         };
+    }
+
+    connectedCallback(){
+        if (window.document.readyState === 'loading') {
+            window.document.addEventListener( 'DOMContentLoaded', () => {
+                console.log(document.readyState);
+                this.loadedCallback.call(this);
+            });
+            
+        } else {
+            this.loadedCallback.call(this);
+        }
+        
+    }
+    
+    loadedCallback(){
+        this.imageSlot     = this.querySelector( 'slot[name="imageList"]' );
+
         setOptions.call( this );
         /* Set container */
         this.container.setAttribute( 'class', 'co-three-sixty' );
@@ -63,8 +86,10 @@ customElements.define( 'co-three-sixty', class extends HTMLElement {
         this.container.appendChild( this.canvas );
         this.shadow.appendChild( this.container );
         if ( this.options.initOnLoad === true ) {
+            log.call( this, 'Init on load' );
             this.init();
         }
+        log.call( this, 'DOMContentLoaded' );
     }
 
     /* Public init method */
@@ -129,7 +154,7 @@ customElements.define( 'co-three-sixty', class extends HTMLElement {
 
     /* Public zoom method */
     zoom ( zoomLevel = 1 ) {
-        this.zoomLevel = zoomLevel;
+        this.zooming.level = zoomLevel;
         drawImage.call( this );
     }
 } );

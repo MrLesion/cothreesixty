@@ -54,7 +54,7 @@ function preloadImages ( imagePaths ) {
 }
 
 function drawImage () {
-    const scale = this.zoomLevel;
+    const scale = this.zooming.level;
     const image = this.images[ this.rotation - this.options.startIndex ];
     if ( this.state === 'loading' ) {
         this.canvas.width  = image.width;

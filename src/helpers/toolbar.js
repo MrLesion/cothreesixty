@@ -1,5 +1,6 @@
 ﻿import { getToolIcon } from './icon'
 import { buildHtmlElement } from './utillities';
+import { drawImage } from './images';
 
 function createToolbar () {
     if ( this.options.tools.length ) {
@@ -25,13 +26,18 @@ function toolEvent ( ...args ) {
             this.spin.call( this );
             break;
         case 'zoom':
-            if ( this.zoomLevel > 1 ) {
+            if ( this.zooming.level > 1 ) {
                 this.panning.x = 0;
                 this.panning.y = 0;
-                this.zoom.call( this, 1 );
+                this.zooming.level = 1;
+                drawImage.call( this );
             }
             else {
-                this.zoom.call( this, 3 );
+                const bbox = this.canvas.getBoundingClientRect();
+                this.zooming.level = 3;
+                this.panning.x = (bbox.left / 2) / ( this.zooming.level * this.zooming.level );
+                this.panning.y = (bbox.top / 2) / ( this.zooming.level * this.zooming.level );
+                drawImage.call( this );
             }
             break;
     }

@@ -67,14 +67,19 @@ function mouseMove ( event ) {
         this.prevX = this.isMobile ? event.touches[ 0 ].clientX : event.clientX;
     }
     else {
-        if ( this.zoomLevel > 1 ) {
-            const rect          = this.canvas.getBoundingClientRect();
-            const mousePosition = {
-                x: event.clientX,
-                y: event.clientY
-            };
-            this.panning.x      = mousePosition.x * this.zoomLevel;
-            this.panning.y      = mousePosition.y * this.zoomLevel;
+        if ( this.zooming.level > 1 ) {
+            
+            /*
+             const mouseX = event.clientX - this.canvas.getBoundingClientRect().left;
+             const mouseY = event.clientY - this.canvas.getBoundingClientRect().top;
+
+             this.panning.x = (this.panning.x - mouseX) * (1 - this.zooming.factor) + mouseX;
+             this.panning.y = (this.panning.y - mouseY) * (1 - this.zooming.factor) + mouseY;
+             */
+            const mouseX =  (this.canvas.getBoundingClientRect().left / 2);
+            const mouseY = (this.canvas.getBoundingClientRect().top / 2);
+            this.panning.x = ( mouseX );
+            this.panning.y = ( mouseY );
             drawImage.call( this );
         }
     }
@@ -87,7 +92,7 @@ function mouseUp () {
 
 function mouseWheel ( event ) {
     event.preventDefault();
-    if ( this.zoomLevel === 1 ) {
+    if ( this.zooming.level === 1 ) {
         if ( event.deltaY > 0 ) {
             this.rotation--;
         }
@@ -101,7 +106,28 @@ function mouseWheel ( event ) {
             this.rotation = this.options.startIndex;
         }
         drawImage.call( this );
+    } else{
+        /*
+        let scale = this.zooming.level;
+        if (event.deltaY > 0) {
+            scale -= this.zooming.factor;
+        } else {
+            scale += this.zooming.factor;
+        }
+        this.zooming.level = scale;
+
+        const mouseX = event.clientX - this.canvas.getBoundingClientRect().left;
+        const mouseY = event.clientY - this.canvas.getBoundingClientRect().top;
+
+        // Adjust the offset to keep the zoom centered on the mouse position
+        this.panning.x = (this.panning.x - mouseX) * (1 - this.zooming.factor) + mouseX;
+        this.panning.y = (this.panning.y - mouseY) * (1 - this.zooming.factor) + mouseY;
+        
+        console.log(scale);
+        
+         */
     }
+    
 }
 
 export { emitEvent, setState, bindEvents }
